@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -22,6 +25,7 @@ class TransactionList extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.normal,
                 ),
               ),
               Container(
@@ -47,7 +51,7 @@ class TransactionList extends StatelessWidget {
                       padding: EdgeInsets.all(7),
                       child: FittedBox(
                         child: Text(
-                          '\$${transactions[index].amount}',
+                          '€${transactions[index].amount.toStringAsFixed(2)}',
                         ),
                       ),
                     ),
@@ -68,7 +72,9 @@ class TransactionList extends StatelessWidget {
                     ),
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: Platform.isIOS
+                        ? Icon(CupertinoIcons.delete_solid)
+                        : Icon(Icons.delete),
                     color: Theme.of(context).colorScheme.error,
                     onPressed: () => deleteTransaction(transactions[index].id),
                   ),
