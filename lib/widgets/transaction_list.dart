@@ -38,50 +38,54 @@ class TransactionList extends StatelessWidget {
               )
             ],
           )
-        : ListView.builder(
-            itemBuilder: (context, index) {
-              return Card(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                elevation: 6,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    radius: 30,
-                    child: Padding(
-                      padding: EdgeInsets.all(7),
-                      child: FittedBox(
-                        child: Text(
-                          '€${transactions[index].amount.toStringAsFixed(2)}',
+        : Container(
+            padding: Platform.isIOS ? EdgeInsets.only(bottom: 40) : null,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                  elevation: 6,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(7),
+                        child: FittedBox(
+                          child: Text(
+                            '€${transactions[index].amount.toStringAsFixed(2)}',
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  title: Text(
-                    transactions[index].title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                    title: Text(
+                      transactions[index].title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(transactions[index].date),
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon: Platform.isIOS
+                          ? Icon(CupertinoIcons.delete_solid)
+                          : Icon(Icons.delete),
+                      color: Theme.of(context).colorScheme.error,
+                      onPressed: () =>
+                          deleteTransaction(transactions[index].id),
                     ),
                   ),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format(transactions[index].date),
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                    ),
-                  ),
-                  trailing: IconButton(
-                    icon: Platform.isIOS
-                        ? Icon(CupertinoIcons.delete_solid)
-                        : Icon(Icons.delete),
-                    color: Theme.of(context).colorScheme.error,
-                    onPressed: () => deleteTransaction(transactions[index].id),
-                  ),
-                ),
-              );
-            },
-            itemCount: transactions.length,
+                );
+              },
+              itemCount: transactions.length,
+            ),
           );
   }
 }
