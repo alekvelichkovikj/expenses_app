@@ -17,15 +17,21 @@ class _NewTransactionState extends State<NewTransaction> {
 
   void _submitData() {
     final _enteredTitle = _titleControler.text;
-    final _enteredAmount = double.parse(_amountControler.text);
+    var _enteredAmount = _amountControler.text;
 
-    if (_enteredTitle.isEmpty || _enteredAmount <= 0 || _selectedDate == null) {
+    if (_enteredAmount.contains(',')) {
+      _enteredAmount = _enteredAmount.replaceFirst(RegExp(','), '.');
+    }
+
+    if (_enteredTitle.isEmpty ||
+        _enteredAmount.isEmpty ||
+        _selectedDate == null) {
       return;
     }
 
     widget.addNewTransaction(
       _enteredTitle,
-      _enteredAmount,
+      double.parse(_enteredAmount),
       _selectedDate,
     );
 
